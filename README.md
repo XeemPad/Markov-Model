@@ -1,4 +1,4 @@
-# Student Scientific Research
+# Markov Chain NLP model
 Practical part of the Student Scientific Research on Markov Chains in
 Natural Language Proceccsing
 
