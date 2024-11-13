@@ -38,19 +38,20 @@ class Markov():
                 self.logging = False
             else:
                 self.log_linen = 1  # number of log lines
-                self.add_log(f"Object {self} initialized.", start=True)
+                self.add_log(f"Object {self} initialized.", separate=True)
         
         self.text = self.remove_punctuations(self.get_text())
     
-    def add_log(self, text, start=False):
+    def add_log(self, text=None, separate=False):
         if not self.logging:
             return -1
         with open(self.log_filepath, 'a') as logf:
-            if start:
+            if separate:
                 logf.write("\n-------------------------------------\n\n")
             
-            logf.write(f"{self.log_linen}. {time.asctime(time.localtime())[4:]} :: {text}\n")
-        self.log_linen += 1
+            if text:
+                logf.write(f"{self.log_linen}. {time.asctime(time.localtime())[4:]} :: {text}\n")
+                self.log_linen += 1
         return 0
 
     def get_text(self):
@@ -301,6 +302,7 @@ class Markov():
             print("! No text could be generated: possibly training data is lacking (try using dynamic order if you haven't already) !")
         if logging:
             self.add_log(f"Function <generate_text> ended. {len(gentokens_list)} tokens generated")
+            self.add_log(separate=True)  # separate from next query
         
         print()
         return gentokens_list
