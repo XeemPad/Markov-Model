@@ -14,7 +14,7 @@ if __name__ == '__main__':
                log_file_path='logs/' + logname(date.today()),
                creativity=2)
 
-    chain = m.train(4)  # train ngrams
+    chain = m.train(ngrams_len=4)  # train ngrams
 
     inp = input("Type in some words (none to exit): ")
     while inp:

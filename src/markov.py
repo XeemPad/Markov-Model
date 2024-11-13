@@ -89,24 +89,24 @@ class Markov():
             return None
         return result
 
-    def train(self, n: int=1, logging: bool=True):
+    def train(self, ngrams_len: int=1, logging: bool=True):
         '''
         This function will take a block of text and map each sequence of <order> words as a key with
         value being the next ngram. All words (tokens) are presented as indices to save memory
 
         args:
-            n (int) : Length of ngrams (order)
+            ngrams_len (int) : Length of ngrams (order)
             stdlog (bool) : whether the info messages are needed (like Successfully trained)
         '''
         print("Training started. The bigger dataset is the more time it will take (~1 sec/10 MB)")
-        self.order = n  # saving the order
+        self.order = ngrams_len  # saving the order
 
         # Tokenizing: split the input text into tokens
         # this time the tokens are individual words separated by spaces (or \t, \n, \f)
         tokens = self.towords(self.text)
 
         if logging:
-            self.add_log(f"Training started with order={n}, file '{self.file_path}'")
+            self.add_log(f"Training started with order={ngrams_len}, file '{self.file_path}'")
         
         self.token_to_ind = {token: i for i, token in enumerate(set(tokens))}  # collecting all the unique tokens
         self.ind_to_token = {i: token for token, i in self.token_to_ind.items()}
@@ -121,12 +121,12 @@ class Markov():
         '''
         ind_tokens = tuple(self.tokens_to_indices(tokens, self.token_to_ind))
         
-        for i in range(len(tokens) - n):
-            gram = ind_tokens[i:i + n]
-            next_token = ind_tokens[i+n]
+        for i in range(len(tokens) - ngrams_len):
+            gram = ind_tokens[i:i + ngrams_len]
+            next_token = ind_tokens[i+ngrams_len]
             if gram in self.ngrams_dict:
                 if next_token in self.ngrams_dict[gram][0]:
-                    next_gram = ind_tokens[i + 1:i + n + 1]
+                    next_gram = ind_tokens[i + 1:i + ngrams_len + 1]
                     self.ngrams_dict[next_gram][1] += 1 # incrementing next_gram's counter
                 else:
                     self.ngrams_dict[gram][0].append(next_token)
