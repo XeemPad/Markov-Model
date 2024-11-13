@@ -4,17 +4,17 @@ import random
 import time
 
 class Markov():
-    def __init__(self, file_path, log_file_path=None):
+    def __init__(self, file_path, log_file_path=None, creativity=0, dynamic_order=1):
         self.file_path = file_path
 
-        self.creativity = 0
+        self.creativity = creativity
         ''' 0 - picking the first picked most popular token; 
             1 - picking any of the most popular tokens; 
             2 - picking tokens randomly with weights;
             3 - picking tokens randomly with uniform distribution.
         '''
 
-        self.dynamic_order = 1
+        self.dynamic_order = dynamic_order
         ''' when matching ngrams with defined order can't be found we try finding shorter ngrams '''
 
         self.trained: bool = False
@@ -301,8 +301,8 @@ class Markov():
         if not gentokens_list:
             print("! No text could be generated: possibly training data is lacking (try using dynamic order if you haven't already) !")
         if logging:
-            self.add_log(f"Function <generate_text> ended. {len(gentokens_list)} tokens generated")
-            self.add_log(separate=True)  # separate from next query
+            self.add_log(f"Function <generate_text> ended. {len(gentokens_list)} tokens generated",
+                         separate=True)
         
         print()
         return gentokens_list
