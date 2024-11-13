@@ -263,7 +263,8 @@ class Markov():
         '''
         if logging:
             self.add_log(f"Function <generate_text> started. startseq='{start_seq}', max_tokens={max_tokens}, "
-                         f"creativity={creativity}, dynamic_order={creativity}")
+                         f"creativity={creativity}, dynamic_order={creativity}",
+                         separate=True)
         
         if not self.trained:
             if logging:
@@ -279,7 +280,8 @@ class Markov():
         ind_tokens = self.tokens_to_indices(tokens, self.token_to_ind)  # indexes of tokens (ids)
         if ind_tokens is None:
             if logging:
-                self.add_log(f"Function <generate_text> ended early. Training data is incomplete for current prompt")
+                self.add_log(f"Function <generate_text> ended early. Training data is incomplete for current prompt",
+                             separate=False)
             return None
         
         gentokens_list = [] # list of predicted tokens
@@ -302,7 +304,7 @@ class Markov():
             print("! No text could be generated: possibly training data is lacking (try using dynamic order if you haven't already) !")
         if logging:
             self.add_log(f"Function <generate_text> ended. {len(gentokens_list)} tokens generated",
-                         separate=True)
+                         separate=False)
         
         print()
         return gentokens_list
